@@ -23,16 +23,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let all = args.all;
     let command = args.command;
 
-    let t = TreeClimber::new().path(path).all(all).climb()?;
+    let t = TreeClimber::new().path(&path).all(all).climb()?;
     for p in t {
         let output = Command::new(&command).current_dir(p).output()?;
         let stdout = String::from_utf8(output.stdout)?;
         println!("{}", stdout)
     }
-
-    // let mut terminal = ratatui::init();
-    // terminal.clear()?;
-    // ratatui::restore();
 
     Ok(())
 }

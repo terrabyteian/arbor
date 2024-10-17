@@ -23,8 +23,8 @@ impl TreeClimber {
         Default::default()
     }
 
-    pub fn path(mut self, path: String) -> TreeClimber {
-        self.path = path;
+    pub fn path(mut self, path: &str) -> TreeClimber {
+        self.path = path.to_string();
         self
     }
 
@@ -59,6 +59,7 @@ impl IntoIterator for Tree {
     }
 }
 
+// TODO: make this a pretty-print, like the "tree" command
 impl fmt::Display for Tree {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         for p in &self.paths {
@@ -71,6 +72,8 @@ impl fmt::Display for Tree {
 }
 
 fn recurse_dirs(paths: &mut Vec<PathBuf>, path: PathBuf, all: bool) -> io::Result<()> {
+    paths.push(path.clone());
+
     // Sort entries in dir
     let mut entries = fs::read_dir(path)?
         .map(|res| res.map(|e| e.path()))
@@ -84,7 +87,6 @@ fn recurse_dirs(paths: &mut Vec<PathBuf>, path: PathBuf, all: bool) -> io::Resul
             if is_hidden(&entry) && !all {
                 continue;
             }
-            paths.push(entry.clone());
             recurse_dirs(paths, entry, all)?;
         }
     }
