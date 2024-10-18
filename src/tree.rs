@@ -72,13 +72,13 @@ impl fmt::Display for Tree {
 }
 
 fn recurse_dirs(paths: &mut Vec<PathBuf>, path: PathBuf, all: bool) -> io::Result<()> {
-    paths.push(path.clone());
-
     // Sort entries in dir
-    let mut entries = fs::read_dir(path)?
+    let mut entries = fs::read_dir(&path)?
         .map(|res| res.map(|e| e.path()))
         .collect::<Result<Vec<_>, io::Error>>()?;
     entries.sort();
+
+    paths.push(path);
 
     // Iterate over sorted entries
     for entry in entries {

@@ -1,7 +1,6 @@
+use arbor::tree::TreeClimber;
 use clap::Parser;
-mod tree;
 use std::process::Command;
-use tree::TreeClimber;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
