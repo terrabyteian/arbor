@@ -47,7 +47,13 @@ impl TreeClimber {
 }
 
 pub struct Tree {
-    paths: Vec<PathBuf>,
+    pub paths: Vec<PathBuf>,
+}
+
+impl Tree {
+    pub fn path_count(&self) -> usize {
+        self.paths.len()
+    }
 }
 
 impl IntoIterator for Tree {
@@ -78,6 +84,7 @@ fn recurse_dirs(paths: &mut Vec<PathBuf>, path: PathBuf, all: bool) -> io::Resul
         .collect::<Result<Vec<_>, io::Error>>()?;
     entries.sort();
 
+    // Pass ownership to paths vec
     paths.push(path);
 
     // Iterate over sorted entries
